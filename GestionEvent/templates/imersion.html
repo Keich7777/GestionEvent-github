@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation en Développement Web</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+  @keyframes changeColor {
+      0% { color: red; }
+      50% { color: rgb(255, 255, 255); }
+      100% { color: rgba(255, 255, 255, 0.26); }
+  }
+
+  .animated-text {
+      animation: changeColor 5s infinite alternate; /* Animation de changement de couleur */
+  }
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    text-decoration-color: #fff;
+    
+    background-image: url('');
+}
+
+#Paiement {
+
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff00;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#ticket-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#ticket-form label {
+    font-weight: bold;
+}
+
+#ticket-form input[type="number"] {
+    width: 50px;
+    padding: 8px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#ticket-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#ticket-form button:hover {
+    background-color: #0056b3;
+}
+
+#paypal-button-container {
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+
+    
+        <center><h1>Formation en Développement Web</h1></center>
+
+        
+        <section id="Paiement">
+            <div class="row mt-4 mb-4">
+                <p><center><b><h1 class="animated-text" style="color: #fff;">PAYER VOS TICKETS</h1></b></center></p>
+            </div>
+        
+            <div id="ticket-form" class="row mt-2 mb-3">
+                <form id="buy-ticket-form" method="POST">
+                    {% csrf_token %}
+                    <label for="ticket-quantity" style="color: #fff;">Nombre de tickets disponibles : </label><br>
+                    <input type="number" id="ticket-quantity" name="ticket_quantity" min="1" max="10" required>
+                    <button type="submit" style="color: #fff;">Acheter des tickets</button>
+                </form>
+            </div>
+        
+            <div id="paypal-button-container" class="row mt-2 mb-3"></div>
+        </section>
+    
+        <script src="https://www.paypal.com/sdk/js?client-id=ARF1cHbDd3s_h_W_i9keQUe_b4_Nx-nbYlFGe4OVVP85scI9U3zL9m71EgCxCUmTOvXMyKAryetMzeZo"></script>
+        <script>
+            document.getElementById('buy-ticket-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var ticketQuantity = document.getElementById('ticket-quantity').value;
+                var totalPrice = ticketQuantity * 10; // Prix unitaire des tickets (exemple: 10)
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: totalPrice.toFixed(2) // Pour arrondir à deux décimales
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('Transaction réussie. Merci pour votre achat !');
+                            // Mettez à jour le compte de l'utilisateur avec le nombre de tickets achetés
+                        });
+                    },
+                    onError: function(err) {
+                        console.error('Erreur de paiement :', err);
+                        alert('Le paiement a échoué. Veuillez réessayer.');
+                    }
+                }).render('#paypal-button-container');
+            });
+        </script>
+
+
+    <section id="visioconferance">
+        <div class="container col-lg-6 shadow">
+            <h2> visioconferance</h2>
+            <ul>
+                <li> <a href="#">Lien meet pour la visio</a> </li> 
+       
+            </ul> 
+            
+        </div>
+    </section>
+
+    <section id="quiz">
+        <div class="container col-lg-6 shadow">
+            <h2>QCM SECTION</h2>
+            <ul>
+                <li> <a href="https://welovedevs.com/fr/app/tests/html5-css3">QCM EN HTML5/CSS</a> </li>
+                <li> <a href="https://welovedevs.com/fr/app/tests/javascript">QCM EN JavaScript</a> </li>
+                <li> <a href="https://welovedevs.com/fr/app/tests/reactjs">QCM SUR reactjs</a></li>
+            </ul>
+        </div>
+    </section>
+
+   
+  
+
+    <section id="video-section">
+        
+        <div class="container col-lg-6 shadow">
+         <h2>Vidéos de Formation</h2>
+         <ul>
+            <li><a href="https://www.youtube.com/watch?v=Y80juYcu3ZI&list=PLwLsbqvBlImHG5yeUCXJ1aqNMgUKi1NK3">formation complete en developpement web</a></li>
+            <li><a href="https://www.youtube.com/watch?v=Tg1xZic-JQs&list=PLwWXkX8UsKlgkg0U_JH82p4bLSuAuTdof">comprendre le html,css,JavaScript</a> </li>  
+         </ul>
+             <!-- Ajoutez ici vos vidéos de formation -->
+        </div>
+       
+    </section>
+
+    <section id="pdf-section">
+        <div class="container col-lg-6 shadow">
+            <h2>Supports de Cours (PDF)</h2>
+        <ul>
+            <li><a href="https://www.mcours.net/cours/pdf/info/INITITIATION_AU_DEVELOPPEMENT_WEB_ET_PRESENTATION_DES_DIFFERENTES_SOLUTIONS_POSSIBLES_POUR_LA_MISE_EN_PLACE_D_UN_SITE_WEB.pdf" target="_blank">Support de Cours 1</a></li>
+            <li><a href="https://cours-fad-public.ensg.eu/course/view.php?id=76" target="_blank">Support de Cours 2</a></li>
+            <li><a href="https://sti2d.ecolelamache.org/documents/les%20balises%20HTML5.pdf " target="_blank">Balise html</a></li>
+            <!-- Ajoutez autant de liens que nécessaire -->
+        </ul>
+        
+        <!-- Ajoutez ici des liens vers vos documents PDF -->
+        </div>
+        
+    </section><br>
+
+    
+
+    
+       <center> <h3><b><p>Faites une belle expérience en participant !</p></b></h1></center>
+    
+
+    <script src="script.js"></script>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+section {
+    margin: 20px;
+}
+
+body{
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzbaDNvjyMRaTXeiuw_Usdv5ldsHx-1EKXKg&usqp=CAU');
+    background-size: cover;
+    background-position: center;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+img {
+      float: left; /* Pour aligner l'image à gauche */
+      margin-right: 20px; /* Marge à droite pour l'espace */
+    }
+
+
+    </style>
+</body>
+</html>
+
+
+
+{% endblock %}

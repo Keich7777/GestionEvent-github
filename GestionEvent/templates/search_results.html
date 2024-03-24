@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Résultats de la recherche pour "{{ query }}" :</h2>
+    {% if events %}
+    <ul>
+        {% for event in events %}
+        <div class="card shadow" style="width: 18rem;">
+            <img src="{{ event.image.url }}" alt="Event Image">
+            <div class="card-body">
+              <h5 class="card-title animated-text"> {{ event.title }} </h5>
+            
+              <button id="detailButton{{ event.id }}" class="btn btn-warning ">Plus de détail</button>
+              <div id="detailsContainer{{ event.id }}" style="display: none;">
+                <b><br>
+                <p>{{ event.title }}</p>
+                <p>{{ event.date }}</p>
+                <p>Lieu:{{ event.lieu }}</p>
+                <p>Ticket disponible:{{ event.ticket_quantity }}</p>
+                <p>Description: {{ event.description }}
+                </p>
+               </b>
+                <button id="hideButton{{ event.id }}" class="btn btn-danger col-lg-4" >Cacher</button><br><br>
+               
+              <script>
+                  // Récupérer le bouton et la zone de détails par leur ID
+                  var detailButton{{ event.id }} = document.getElementById('detailButton{{ event.id }}');
+                  var detailsContainer{{ event.id }} = document.getElementById('detailsContainer{{ event.id }}');
+                  var hideButton{{ event.id }} = document.getElementById('hideButton{{ event.id }}');
+              
+                  // Ajouter un gestionnaire d'événement pour le clic sur le bouton
+                  detailButton{{ event.id }}.addEventListener('click', function() {
+                      // Afficher la zone de détails
+                      detailsContainer{{ event.id }}.style.display = 'block';
+                  }); 
+            
+                  hideButton{{ event.id }}.addEventListener('click', function() {
+                      // Cacher la zone de détails
+                      detailsContainer{{ event.id }}.style.display = 'none';
+                  });
+              </script>
+            </div>
+              <a href="{% url 'paiment' event.id  %}" class="btn btn-success">Participer</a><br><br>
+              <a href="{% url 'delete_event' event.id %} " class="btn btn-danger">Supprimer l'événement</a><br><br>
+              <!-- Ajouter le bouton "Inviter" -->
+      <button id="inviteButton{{ event.id }}" class="btn btn-primary">Inviter</button>
+      
+      <!-- Div pour afficher le formulaire de contact (initiallement caché) -->
+      <div id="inviteFormContainer{{ event.id }}" style="display: none;">
+        <form id="inviteForm{{ event.id }}">
+          <div class="form-group">
+            <label for="inviteName{{ event.id }}">Nom de l'utilisateur :</label>
+            <input type="text" class="form-control" id="inviteName{{ event.id }}" placeholder="Nom de l'utilisateur">
+          </div>
+          <div class="form-group">
+            <label for="inviteEmail{{ event.id }}">Adresse e-mail :</label>
+            <input type="email" class="form-control" id="inviteEmail{{ event.id }}" placeholder="Adresse e-mail">
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer l'invitation</button>
+        </form>
+      </div>
+      
+      <script>
+        // Ajouter la logique pour afficher/cacher le formulaire de contact lors du clic sur le bouton "Inviter"
+        {% for event in recent_events %}
+        var inviteButton{{ event.id }} = document.getElementById('inviteButton{{ event.id }}');
+        var inviteFormContainer{{ event.id }} = document.getElementById('inviteFormContainer{{ event.id }}');
+      
+        inviteButton{{ event.id }}.addEventListener('click', function() {
+            inviteFormContainer{{ event.id }}.style.display = 'block';
+        });
+      
+        // Ajouter la logique pour envoyer les données du formulaire de contact via AJAX
+        var inviteForm{{ event.id }} = document.getElementById('inviteForm{{ event.id }}');
+        inviteForm{{ event.id }}.addEventListener('submit', function(event) {
+            event.preventDefault();
+      
+            var inviteName = document.getElementById('inviteName{{ event.id }}').value;
+            var inviteEmail = document.getElementById('inviteEmail{{ event.id }}').value;
+      
+              fetch("{% url 'send_invitation' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest', // Ajoutez cette ligne pour définir l'en-tête X-Requested-With
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                invite_name: inviteName,
+                invite_email: inviteEmail
+            })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Invitation envoyée avec succès');
+                    // Afficher un message de succès à l'utilisateur si nécessaire
+                } else {
+                    console.error('Erreur lors de l\'envoi de l\'invitation');
+                    // Afficher un message d'erreur à l'utilisateur si nécessaire
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi de l\'invitation:', error);
+                // Afficher un message d'erreur à l'utilisateur si nécessaire
+            });
+      
+            inviteForm{{ event.id }}.reset();
+            inviteFormContainer{{ event.id }}.style.display = 'none'; // Cacher le formulaire après l'envoi
+        });
+        {% endfor %}
+      </script>
+      
+            </div>
+          </div>
+        <!-- Ajoutez ici d'autres détails de l'événement si nécessaire -->
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucun événement trouvé pour "{{ query }}".</p>
+    {% endif %}
+</div>
+{% endblock %}

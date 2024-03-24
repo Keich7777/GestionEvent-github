@@ -1,0 +1,66 @@
+
+
+{% block content %}
+
+
+
+<div class="container text-align " >
+
+        <div class="col-lg-6 shadow p-4">
+            <h3 class="text-white">Creer votre compte</h3>
+     <style>
+             body {
+            font-family: Arial, sans-serif;
+            background-image: url('');
+            background-size: cover;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150vh;
+        }
+
+        form {
+            background-image: url('https://img.freepik.com/vecteurs-premium/fond-couleur-degrade-bleu-blanc-pour-banniere-du-site-web-conception-graphique-creative_120819-1365.jpg');
+            background-color: hsl(0, 0%, 100%);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid #75e1ff;
+            border-radius: 6px;
+            outline: none;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            background-color: rgb(235, 246, 251);
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+                
+
+     </style>
+            <form action="" method="POST" >
+                {% csrf_token %}
+                {{form.as_p}}
+                 <input type="submit" style="background-color: rgba(105, 202, 247, 0.906); color: #000000; " class="btn btn-success" value="Creer">
+                 <p class="link">J'ai deja un compte <a href="{% url 'login' %}">Se connecter</a>  </p>
+        
+          </form>
+    </div>
+ 
+</div> 
+
+
+
+{% endblock %}

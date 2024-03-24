@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmer la suppression</title>
+    <style>
+        /* Ajoutez ce code à votre fichier CSS ou à l'endroit approprié dans votre fichier CSS existant */
+
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #c82333;
+
+   
+}
+
+@keyframes changeColor {
+      0% { color: red; }
+      50% { color: blue; }
+      100% { color: green; }
+  }
+
+  .animated-text {
+      animation: changeColor 3s infinite alternate; /* Animation de changement de couleur */
+  }
+
+    </style>
+</head>
+<body>
+    <br><br>
+    <h1 class="animated-text" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Confirmer la suppression de l'événement "{{ event.title }}"</h1><br><br><br>
+    <form action="{% url 'delete_event' event.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Supprimer"><br><br><br><br><br><br><br><br><br>
+    </form>
+</body>
+</html>
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Insuffisant</title>
+    <!-- Inclure les styles CSS si nécessaire -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #f00;
+        }
+        p {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Stock Insuffisant</h2>
+        <p>Désolé, il n'y a pas suffisamment de tickets disponibles pour cet événement.</p>
+        <p>Vous pouvez <a href="{% url 'home' %}">retourner à la page d'accueil</a> pour voir d'autres événements.</p>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}
+

@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+    /* Style de base pour le formulaire */
+.create-room {
+  font-family: Arial, sans-serif; /* Police de caractères */
+}
+
+.container {
+  max-width: 600px; /* Largeur maximale du conteneur */
+  margin: 0 auto; /* Centrage horizontal du conteneur */
+  padding: 15px; /* Espacement intérieur du conteneur */
+}
+
+.layout__box {
+   /* Couleur de fond de la boîte */
+  background-image: url('https://img.freepik.com/vecteurs-premium/fond-couleur-degrade-bleu-blanc-pour-banniere-du-site-web-conception-graphique-creative_120819-1365.jpg');
+  border: 1px solid #ccc; /* Bordure de la boîte */
+  border-radius: 5px; /* Arrondi des coins de la boîte */
+  padding: 20px; /* Espacement intérieur de la boîte */
+  margin-bottom: 20px; /* Marge en bas de la boîte */
+}
+
+.layout__boxHeader {
+  display: flex; /* Utilisation de flexbox pour aligner les éléments */
+  justify-content: space-between; /* Alignement horizontal des éléments */
+  align-items: center; /* Alignement vertical des éléments */
+}
+
+.layout__boxTitle {
+  display: flex; /* Utilisation de flexbox pour aligner les éléments */
+  align-items: center; /* Alignement vertical des éléments */
+}
+
+.layout__boxTitle h3 {
+  margin-left: 10px; /* Marge à gauche du titre */
+}
+
+/* Style des champs de formulaire */
+.form__group {
+  margin-bottom: 20px; /* Marge en bas du groupe de formulaire */
+}
+
+label {
+  display: block; /* Affichage en bloc pour le label */
+  font-weight: bold; /* Mise en gras du texte du label */
+}
+
+input[type="text"],
+input[type="date"],
+input[type="lieu"],
+input[type="number"],
+
+textarea {
+  width: 100%; /* Largeur du champ de saisie */
+  padding: 10px; /* Espacement intérieur du champ de saisie */
+  border: 1px solid #ccc; /* Bordure du champ de saisie */
+  border-radius: 5px; /* Arrondi des coins du champ de saisie */
+  box-sizing: border-box; /* Boîte de modèle de taille */
+}
+
+textarea {
+  height: 150px; /* Hauteur du champ de texte */
+}
+
+/* Style des boutons */
+.btn {
+  display: inline-block; /* Affichage en ligne du bouton */
+  padding: 10px 20px; /* Espacement intérieur du bouton */
+  border: none; /* Suppression de la bordure du bouton */
+  border-radius: 5px; /* Arrondi des coins du bouton */
+  cursor: pointer; /* Curseur de type pointeur au survol */
+}
+
+.btn--dark {
+  background-color: #333; /* Couleur de fond du bouton sombre */
+  color: #ffffff; /* Couleur du texte du bouton sombre */
+}
+
+.btn--main {
+  background-color: #007bff; /* Couleur de fond du bouton principal */
+  color: #fff; /* Couleur du texte du bouton principal */
+}
+
+.btn--dark:hover,
+.btn--main:hover {
+  opacity: 0.8; /* Opacité réduite au survol */
+}
+
+@keyframes changeColor {
+      0% { color: red; }
+      50% { color: blue; }
+      100% { color: green; }
+  }
+
+  .animated-text {
+      animation: changeColor 3s infinite alternate; /* Animation de changement de couleur */
+  }
+
+
+</style>
+
+<main class="create-room layout">
+  <div class="container" >
+    <div class="layout__box">
+      <div class="layout__boxHeader">
+        <div class="layout__boxTitle">
+          <a href="{% url 'home' %}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>arrow-left</title>
+              <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+            </svg>
+          </a>
+          <h3 class="animated-text" style="font-family: Arial, Helvetica, sans-serif;">Creer votre evenement</h3>
+        </div>
+      </div>
+      <div class="layout__body">
+        <form class="form" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form__group">
+            <label for="event_title">Titre</label>
+            <input type="text" id="event_title" name="title" required />
+          </div>
+
+          <div class="form__group">
+            <label for="event_image">Image</label>
+            <input type="file" id="event_image" name="image" accept="image/*" required />
+          </div>
+
+          <div class="form__group">
+            <label for="event_date">Date</label>
+            <input type="date" id="event_date" name="date" required />
+          </div>
+
+          <div class="form__group">
+            <label for="event_lieu">Lieu</label>
+            <input  type="lieu" id="event_lieu" name="lieu" required />
+          </div>
+
+          <div class="form__group">
+            <label for="event_ticket_quantity">Tickets Disponibles</label>
+            <input  type="number" id="event_ticket_quantity" name="ticket_quantity" min="1" max="{{ event.ticket_quantity }}" required />
+          </div>
+
+          <div class="form__group">
+            <label for="event_description">Description</label>
+            <textarea id="event_description" name="description" required></textarea>
+          </div>
+
+          <div class="form__action">
+            <a class="btn btn--dark" href="{% url 'home' %}">Retour</a>
+            <button class="btn btn--main" type="submit" >Créer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock content %}
